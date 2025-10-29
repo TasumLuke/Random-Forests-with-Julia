@@ -1,8 +1,8 @@
 
-# EWSF — Entropy-Weighted SubForest (Julia)
+# EWSF: Entropy-Weighted SubForest (Julia)
 
 **Version:** 0.2.0  
-**Purpose:** A novel Random-Forest–style classifier in Julia that:
+**Purpose:** A Random-Forest–style classifier in Julia that:
 - Automatically parses CSVs and detects column types,
 - Lets you choose features and target,
 - Trains multiple *entropy‑weighted sub‑forests* (different feature-emphasis levels),
@@ -45,7 +45,7 @@ ewsf-julia/
 
 ---
 
-## 1 — Setup (one-time)
+## Setup (one-time)
 
 1. Clone or copy the repository into a folder, e.g.:
 
@@ -73,8 +73,7 @@ Pkg.add(["CSV","DataFrames","CategoricalArrays","StatsBase","Plots","IJulia","St
 
 ---
 
-## 2 — Files you will interact with
-
+## Files 
 - `run_train.jl` (if present): simple CLI wrapper to run interactive training.
 - `run_predict.jl` (if present): wrapper to load a saved model and run predictions on a CSV.
 - `scripts/synthetic_demo.jl`: generates synthetic data, trains model, synthesizes drift, runs `adapt_weights!` and prints summaries.
@@ -83,7 +82,7 @@ Pkg.add(["CSV","DataFrames","CategoricalArrays","StatsBase","Plots","IJulia","St
 
 ---
 
-## 3 — How to train on your CSV (interactive CLI)
+## How to train on your CSV (interactive CLI)
 
 1. Start Julia in repo root:
 
@@ -112,7 +111,7 @@ include("run_train.jl")
 
 ---
 
-## 4 — Predicting on new data (CSV)
+## Predicting on new data (CSV)
 
 1. Use the CLI wrapper:
 
@@ -143,7 +142,7 @@ pred_df = EWSF.EWSFModel.predict_model(model, new_dataframe)
 
 ---
 
-## 5 — Drift detection and automatic weight adaptation
+## Drift detection and automatic weight adaptation
 
 To detect drift between your original training dataset and a new incoming dataset, call:
 
@@ -172,7 +171,7 @@ Where:
 
 ---
 
-## 6 — Running the synthetic demo & notebook
+## Running the synthetic demo & notebook
 
 **Synthetic CLI demo**:
 
@@ -200,7 +199,7 @@ Open `scripts/ewsf_demo.ipynb`. The notebook shows plots of p-values, pre/post-a
 
 ---
 
-## 7 — Running tests
+## Running tests
 
 From the package root execute:
 
@@ -220,73 +219,13 @@ This runs `test/runtests.jl` which contains unit tests (e.g., ensuring `adapt_we
 
 ---
 
-## 8 — Using real data — checklist & tips
 
-1. **CSV format**:
-   - First row: header with column names.
-   - Columns may be numeric or categorical (strings). The script will detect data types automatically.
-   - Avoid complex nested types or arrays in CSV cells.
-
-2. **Target column**:
-   - Choose a categorical target (classification).
-   - If your target is numeric but has ≤ 10 distinct values, the package will coerce it to categorical automatically; for regression tasks (continuous targets) the current implementation focuses on classification — contact me if you want regression support.
-
-3. **Missing values**:
-   - Numeric missing values are imputed with the column median (during preprocessing).
-   - Categorical missing values are treated like any other level (and encoded).
-
-4. **Data leakage**:
-   - Ensure your CSV split (training vs incoming/test) does not leak future info into training. Drift adaptation assumes training data reflects the distribution of the label–feature relationship at training time.
-
-5. **Scaling & performance**:
-   - The package uses pure-Julia nested loops and recursion. For medium datasets (thousands of rows, tens of features) it will be fine. For very large datasets (100k+ rows or many features) consider:
-     - Increasing `n_subforests` carefully,
-     - Decreasing `n_trees` or `n_perm` for drift testing,
-     - Using a compiled tree library later for speed, while retaining EWSF wrappers.
-
-6. **Interpreting weights**:
-   - Each subforest has a weight representing relative trust (initially from OOB accuracy). After `adapt_weights!` a subforest that relies on drifting features will receive lower weight, making the ensemble rely more on robust subforests.
-
----
-
-## 9 — Advanced usage & extension ideas
-
-- **OOB-based online monitoring**: periodically generate OOB metrics incrementally as new labeled data arrives and trigger retraining once performance drops below a threshold.
-- **Hybrid retrain strategy**: use `adapt_weights!` for small drift; if many features drift, perform incremental or full retraining on recent labeled examples.
-- **Regression support**: implement mean-squared-error splits in `tree.jl` and adapt the prediction to return means and variances.
-- **Visualization**: extend the Jupyter notebook to show per-feature CDFs pre/post drift (for KS) and contingency tables (for categorical features).
-- **Packaging & distribution**: publish `EWSF` on GitHub and register with Julia General registry if you want others to `Pkg.add("EWSF")`.
-
----
-
-## 10 — Troubleshooting
+## Troubleshooting
 
 - **"column not found" on predict**: ensure column names in new CSV exactly match the feature names used for training (case-sensitive).
 - **Strange zeros in categorical mapping**: unseen categories in new data map to code `0`. If these are common, consider re-encoding the model with a broader training set or mapping unknowns explicitly.
 - **Slow permutation p-values**: reduce `n_perm` (e.g., 200) for exploratory runs. For publication-quality p-values, use `n_perm >= 1000`.
 - **Stack overflow / recursion limit during tree building**: limit `max_depth` (default ≤ 8) or increase Julia recursion limit cautiously.
-
----
-
-## 11 — License & attribution
-
-You can place your preferred license here (MIT, Apache‑2.0, etc.). Example:
-
-```
-MIT License
-Copyright (c) 2025 You
-Permission is hereby granted...
-```
-
----
-
-## 12 — Contact / next steps
-
-If you want me to:
-- Convert the package into a registered Julia package,
-- Add regression support,
-- Create a minimal Dash/Genie web UI for uploading CSVs and exploring p-values interactively,
-- Or produce an exact `Manifest.toml` for a specific OS and Julia registry snapshot — tell me your OS and Julia version and I will produce the manifest.
 
 ---
 
