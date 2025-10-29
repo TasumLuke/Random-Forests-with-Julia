@@ -1,7 +1,7 @@
 name = "EWSF"
 uuid = "3f2a1d5b-9a7c-4f0c-9c3f-8b6e1b3f2d4a"
 authors = ["You <you@example.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -11,6 +11,11 @@ StatsBase = "2913bbd2-ae2a-5a5d-9b8b-5b6b0c7f6bb8"
 Random = "9a3f8284-44b3-4b8b-94b4-8a8f6fbd6b9b"
 Serialization = "8bb1440f-7a6f-5f2f-8a2f-b2b4a8d90f7c"
 Test = "8dfed614-e777-5d1b-8e57-7d1ea1fa2b77"
+
+# For demo & notebook
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+IJulia = "7073ff75-c697-5ac5-aca5-1a9e86e0a5b0"
+StatsPlots = "f3b207a7-3a31-557a-98fa-0410b45d34f2"
 
 [compat]
 julia = "1.8"
