@@ -1,0 +1,42 @@
+# Manifest.toml template — run `Pkg.instantiate()` to generate exact env-specific manifest.
+# This template pins primary deps with common versions. Not all transitive deps are included.
+# To generate a full Manifest, run:
+# julia> using Pkg; Pkg.activate("."); Pkg.instantiate();
+
+[[CSV]]
+deps = ["TranscodingStreams","CodecZlib","Parameters","FilePathsBase"]
+git-tree-sha1 = "e8f2e2b..." # placeholder
+uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+version = "0.10.0"
+
+[[DataFrames]]
+git-tree-sha1 = "..." 
+uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+version = "1.4.0"
+
+[[CategoricalArrays]]
+git-tree-sha1 = "..."
+uuid = "a3e1a5a0-21c2-514e-9f7a-5f0d7b2e8b5f"
+version = "0.10.5"
+
+[[StatsBase]]
+git-tree-sha1 = "..."
+uuid = "2913bbd2-ae2a-5a5d-9b8b-5b6b0c7f6bb8"
+version = "0.33.0"
+
+[[Plots]]
+git-tree-sha1 = "..."
+uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+version = "1.37.0"
+
+[[IJulia]]
+git-tree-sha1 = "..."
+uuid = "7073ff75-c697-5ac5-aca5-1a9e86e0a5b0"
+version = "1.25.0"
+
+[[StatsPlots]]
+git-tree-sha1 = "..."
+uuid = "f3b207a7-3a31-557a-98fa-0410b45d34f2"
+version = "0.14.0"
+
+# End of template. This file is only a starting point — run Pkg.instantiate() to make it exact.
