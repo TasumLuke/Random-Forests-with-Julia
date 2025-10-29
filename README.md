@@ -244,9 +244,3 @@ julia --project=. scripts/synthetic_demo.jl
 # Launch demo notebook
 julia --project=. -e 'using IJulia; notebook(dir="scripts")'
 ```
-
----
-
-Thank you — enjoy experimenting with EWSF. If you'd like, I will now:
-- produce a fully resolved `Manifest.toml` for macOS/Linux/Windows for a specific Julia version (tell me OS and version), **or**
-- add a simple web UI for uploading CSV and viewing p-values and predictions.
